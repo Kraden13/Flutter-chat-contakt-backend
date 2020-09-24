@@ -11,15 +11,15 @@ const newUser = async (req, res = response ) => {
 
     try {
 
-        const existeEmail = await User.findOne({ email });
-        if( existeEmail ) {
+        const existEmail = await User.findOne({ email });
+        if( existEmail ) {
             return res.status(400).json({
                 ok: false,
                 msg: 'El correo ya está registrado'
             });
         }
 
-        const User = new User( req.body );
+        const user = new User( req.body );
 
         // Encriptar contraseña
         const salt = bcrypt.genSaltSync();
@@ -60,9 +60,9 @@ const login = async ( req, res = response ) => {
             });
         }
 
-        // Validar el password
-        const validPassword = bcrypt.compareSync( password, userDB.password );
-        if ( !validPassword ) {
+        // validatear el password
+        const validatePassword = bcrypt.compareSync( password, userDB.password );
+        if ( !validatePassword ) {
             return res.status(400).json({
                 ok: false,
                 msg: 'La contraseña no es valida'
